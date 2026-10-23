@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client portal — TH Insurance Brokers</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/thib-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/thib.css">
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body class="thp-body">
+
+<!-- ========== AUTH ========== -->
+<div class="thp-auth" id="auth">
+  <aside class="thp-auth__aside">
+    <a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a>
+    <div class="thp-auth__pitch">
+      <h2>Every policy you hold with us, <span class="th-serif">in one place.</span></h2>
+      <p>Sign in with the mobile number we have on file. No password to remember.</p>
+      <div class="thp-auth__list">
+        <div><i>i.</i>See what is active, what is expiring and what needs you</div>
+        <div><i>ii.</i>Compare renewal quotes and pay by PayNow or card</div>
+        <div><i>iii.</i>Download policies and receipts whenever you need them</div>
+        <div><i>iv.</i>Renew road tax, or let THIB renew it for you</div>
+      </div>
+    </div>
+    <div class="thp-auth__foot">TH Insurance Brokers Pte Ltd &middot; 71 Bukit Batok Crescent #11-07, Singapore 658071</div>
+  </aside>
+
+  <main class="thp-auth__main">
+    <div class="thp-auth__card" id="step-mobile">
+      <div class="thp-auth__mobilelogo"><a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a></div>
+      <h1 id="login-title">Client login</h1>
+      <p id="login-copy">Enter the mobile number registered with THIB. We will send you a 6-digit code.</p>
+      <div class="thp-field">
+        <label for="mobile">Mobile number</label>
+        <div class="thp-inputgroup">
+          <span class="thp-inputgroup__prefix">
+            <svg width="18" height="12" viewBox="0 0 24 16" aria-hidden="true"><rect width="24" height="8" fill="#ED2939"/><rect y="8" width="24" height="8" fill="#fff"/><circle cx="6" cy="4" r="2.6" fill="#fff"/><circle cx="7.1" cy="4" r="2.6" fill="#ED2939"/></svg>
+            +65
+          </span>
+          <input id="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="9123 4567" maxlength="9">
+        </div>
+        <p class="thp-error" id="mobile-error" hidden>Enter a valid 8-digit Singapore mobile number.</p>
+        <p class="thp-hint">Not sure which number we have? Call <a href="tel:+6565155333" style="color:var(--th-navy-2);font-weight:600;">+65 6515 5333</a>.</p>
+      </div>
+      <button class="th-btn th-btn--primary th-btn--lg th-btn--block thp-authbtn" id="send-code">Send code</button>
+      <div class="thp-or"><span>or</span></div>
+      <div class="thp-idp">
+        <button type="button" class="thp-idp__btn" id="idp-singpass"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg>Continue with Singpass</button>
+        <button type="button" class="thp-idp__btn" id="idp-corppass"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Login with Corppass</button>
+      </div>
+      <p class="thp-authmeta" id="mode-switch">New to THIB? <button type="button" id="start-new">Create your account</button></p>
+      <div class="thp-authnote"><b>Demo prototype.</b> No code is actually sent. Use <b>9123 4567</b> and any 6 digits to sign in. Names, policies and amounts are invented.</div>
+    </div>
+
+    <div class="thp-auth__card" id="step-consent" hidden>
+      <div class="thp-auth__mobilelogo"><a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a></div>
+      <div class="thp-consent__brand"><span id="consent-idp">Singpass</span> &middot; Myinfo</div>
+      <h1>Share your details <span class="th-serif">with THIB?</span></h1>
+      <p>TH Insurance Brokers Pte. Ltd. is requesting the following from Myinfo. You can review every field before it is saved.</p>
+      <ul class="thp-consent__list" id="consent-list"></ul>
+      <button class="th-btn th-btn--primary th-btn--lg th-btn--block thp-authbtn" id="consent-allow">I agree</button>
+      <p class="thp-authmeta"><button type="button" id="consent-cancel">Cancel</button></p>
+      <div class="thp-authnote"><b>Demo prototype.</b> No Singpass or Corppass call is made. Sample Myinfo data is shown. In the real build THIB must be approved as a Myinfo recipient with each field justified (spec, Phase 3).</div>
+    </div>
+
+    <div class="thp-auth__card" id="step-otp" hidden>
+      <div class="thp-auth__mobilelogo"><a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a></div>
+      <button class="thp-back" id="change-number" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        Change number
+      </button>
+      <h1>Enter your code</h1>
+      <p>We sent a 6-digit code to <b id="otp-target" style="color:var(--th-ink);">+65 9123 4567</b>.</p>
+      <div class="thp-otp" id="otp">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+      </div>
+      <p class="thp-error" id="otp-error" hidden>Enter all 6 digits.</p>
+      <button class="th-btn th-btn--primary th-btn--lg th-btn--block thp-authbtn" id="verify">Verify and sign in</button>
+      <p class="thp-authmeta">Did not get it? <button type="button" id="resend" disabled>Resend in 30s</button></p>
+    </div>
+  </main>
+</div>
+
+<!-- ========== SIGN-UP (new client) ========== -->
+<div class="thp-signup" id="signup">
+  <header class="thp-signup__top">
+    <div class="thp-signup__topin">
+      <a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a>
+      <ol class="thp-stepper" id="stepper">
+        <li class="is-on" data-step="1"><i>1</i><span>About you</span></li>
+        <li data-step="2"><i>2</i><span>Log card</span></li>
+        <li data-step="3"><i>3</i><span>Insurance</span></li>
+        <li data-step="4"><i>4</i><span>Road tax</span></li>
+        <li data-step="5"><i>5</i><span>Done</span></li>
+      </ol>
+      <a class="thp-signup__exit" href="index.html">Save and exit</a>
+    </div>
+  </header>
+
+  <main class="thp-signup__main">
+
+    <!-- step 1: about you -->
+    <section class="thp-sstep is-on" data-step="1">
+      <div class="thp-sstep__kicker">Step 1 of 4</div>
+      <h1>First, a little <span class="th-serif">about you.</span></h1>
+      <p>We verified <b id="su-mobile" style="color:var(--th-ink);">+65 9123 4567</b>. We ask for your NRIC only when a policy is issued, never before.</p>
+      <div class="thp-form">
+        <div>
+          <label>I am signing up as</label>
+          <div class="thp-segs"><button type="button" class="is-on" data-type="personal">An individual</button><button type="button" data-type="business">A business</button></div>
+        </div>
+        <div class="thp-biz" hidden>
+          <div class="is-row">
+            <div><label for="su-company">Company name</label><input id="su-company" type="text" autocomplete="organization" placeholder="e.g. Lim &amp; Sons Logistics Pte Ltd"></div>
+            <div><label for="su-uen">UEN</label><input id="su-uen" type="text" placeholder="e.g. 201812345K"></div>
+          </div>
+        </div>
+        <div><label for="su-name" id="su-name-label">Full name, as on your NRIC</label><input id="su-name" type="text" autocomplete="name" placeholder="e.g. Alex Tan"></div>
+        <div class="thp-biz" hidden><label for="su-role">Your role</label><select id="su-role"><option>Director</option><option>Finance manager</option><option>HR manager</option><option>Fleet manager</option><option>Office manager</option><option>Other</option></select></div>
+        <div><label for="su-email">Email</label><input id="su-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div>
+          <label>How should we send reminders?</label>
+          <div class="thp-segs"><button type="button" class="is-on" data-contact="whatsapp">WhatsApp</button><button type="button" data-contact="email">Email</button><button type="button" data-contact="both">Both</button></div>
+          <p class="thp-hint thp-biz" hidden>Business clients are usually handled by email. Reminders go to you, with your accounts team in copy if you add them.</p>
+        </div>
+        <div class="thp-biz" hidden><label for="su-accounts">Accounts email (optional, copied on reminders and receipts)</label><input id="su-accounts" type="email" placeholder="accounts@yourcompany.sg"></div>
+        <label class="thp-check"><input type="checkbox" id="su-consent"><span>Send me renewal and road tax reminders. <small>THIB messages you only about policies you hold with us. Opt out any time by replying STOP or in your settings.</small></span></label>
+        <p class="thp-error" id="su-error-1" hidden>Please enter your name and tick the reminders box to continue.</p>
+      </div>
+      <div class="thp-sstep__nav"><button class="th-btn th-btn--primary th-btn--lg" data-next>Continue</button></div>
+    </section>
+
+    <!-- step 2: vehicle log card -->
+    <section class="thp-sstep" data-step="2" data-type="personal">
+      <div class="thp-sstep__kicker">Step 2 of 4</div>
+      <h1>Your vehicle <span class="th-serif">log card.</span></h1>
+      <p>Everything an insurer needs to quote, and everything LTA uses to set your road tax, is on this one document. Upload it once and you will never type those details again.</p>
+
+      <div class="thp-drop" id="drop">
+        <input type="file" id="logcard-file" accept=".pdf,image/*">
+        <div class="thp-drop__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg></div>
+        <b>Upload your log card</b>
+        <p>PDF or a clear photo. Download it from <a href="https://onemotoring.lta.gov.sg" target="_blank" rel="noopener">OneMotoring</a> under Vehicle Registration Details.</p>
+        <div class="thp-drop__btns">
+          <button class="th-btn th-btn--primary" type="button" id="choose-file">Choose a file</button>
+          <button class="th-btn th-btn--ghost" type="button" id="use-sample">Use a sample log card</button>
+        </div>
+      </div>
+
+      <div class="thp-reading" id="reading" hidden><i></i><div><b>Reading your log card</b><span id="reading-file">Checking the vehicle number, engine and dates</span></div></div>
+
+      <div class="thp-extract" id="extract" hidden>
+        <div class="thp-extract__head">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <b id="extract-title">Read from your log card</b><span>Check and correct anything that is wrong</span>
+        </div>
+        <div class="thp-extract__row"><label for="v-plate">Vehicle number<span class="thp-tag">from log card</span></label><input id="v-plate" type="text" placeholder="SXX 1234 A"></div>
+        <div class="thp-extract__row"><label for="v-model">Make and model</label><input id="v-model" type="text" placeholder="e.g. Toyota Corolla Altis 1.6"></div>
+        <div class="thp-extract__row"><label for="v-prop">Propellant</label><select id="v-prop"><option value="petrol">Petrol</option><option value="petrol-electric">Petrol-electric (hybrid)</option><option value="electric">Electric</option><option value="diesel">Diesel</option></select></div>
+        <div class="thp-extract__row"><label for="v-cc">Engine capacity (cc)</label><input id="v-cc" type="number" inputmode="numeric" placeholder="1598"></div>
+        <div class="thp-extract__row"><label for="v-kw">Power rating (kW)</label><input id="v-kw" type="number" inputmode="decimal" placeholder="Electric and hybrid cars"></div>
+        <div class="thp-extract__row"><label for="v-reg">Original registration</label><input id="v-reg" type="date"></div>
+        <div class="thp-extract__row"><label for="v-coe">COE expiry</label><input id="v-coe" type="date"></div>
+        <div class="thp-extract__row"><label for="v-rt">Road tax expiry</label><input id="v-rt" type="date"></div>
+        <div class="thp-extract__foot">Nothing is saved until you continue. Your log card is kept with your policy file and used only for quotes and road tax.</div>
+      </div>
+      <p class="thp-error" id="su-error-2" hidden>We need at least the vehicle number and the engine capacity or power rating.</p>
+
+      <div class="thp-sstep__nav">
+        <button class="thp-back" type="button" data-prev><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+        <button class="thp-back" type="button" id="manual-entry" style="margin-left:14px;">Enter details manually</button>
+        <button class="th-btn th-btn--primary th-btn--lg" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- step 2 (business): what to cover -->
+    <section class="thp-sstep" data-step="2" data-type="business">
+      <div class="thp-sstep__kicker">Step 2 of 4</div>
+      <h1>What would you like <span class="th-serif">covered?</span></h1>
+      <p>Tick what applies and give rough numbers. A broker will confirm the details with you by email; vehicle log cards can come later, one per vehicle or as a fleet list.</p>
+      <div class="thp-lines">
+        <label class="thp-line"><input type="checkbox" value="Fleet motor" checked><span><b>Motor fleet</b><small>Cars, vans, lorries, motorcycles under one policy</small></span><input class="thp-line__n" type="number" min="1" placeholder="vehicles" value="6" aria-label="Number of vehicles"></label>
+        <label class="thp-line"><input type="checkbox" value="Employee benefits"><span><b>Employee benefits</b><small>Group hospital and surgical, term life, dental</small></span><input class="thp-line__n" type="number" min="1" placeholder="staff" aria-label="Number of staff"></label>
+        <label class="thp-line"><input type="checkbox" value="Work injury compensation"><span><b>Work injury compensation</b><small>WICA cover for employees</small></span><input class="thp-line__n" type="number" min="1" placeholder="staff" aria-label="Number of staff"></label>
+        <label class="thp-line"><input type="checkbox" value="Business package"><span><b>Business package</b><small>Premises, contents, liability</small></span></label>
+        <label class="thp-line"><input type="checkbox" value="Vehicles & equipment"><span><b>Vehicles &amp; equipment</b><small>Plant and machinery, on site and in transit</small></span><input class="thp-line__n" type="number" min="1" placeholder="units" aria-label="Number of units"></label>
+        <label class="thp-line"><input type="checkbox" value="Marine cargo"><span><b>Marine</b><small>Cargo and hull</small></span></label>
+        <label class="thp-line"><input type="checkbox" value="Professional indemnity"><span><b>Professional indemnity</b><small>Advice and services</small></span></label>
+        <label class="thp-line"><input type="checkbox" value="Cyber liability"><span><b>Cyber</b><small>Breach response and interruption</small></span></label>
+        <label class="thp-line"><input type="checkbox" value="Bonds"><span><b>Bonds</b><small>Performance, security, foreign worker</small></span></label>
+      </div>
+      <div class="thp-drop thp-drop--sm" id="fleet-drop" style="margin-top:18px;">
+        <input type="file" id="fleet-file" accept=".csv,.xlsx,.pdf,image/*">
+        <b style="font-size:15px;">Upload a fleet or staff list <span style="font-weight:400;color:var(--th-mute);">(optional)</span></b>
+        <p id="fleet-name">A spreadsheet of vehicles (plate, make, model) or staff. We read it so nothing is retyped.</p>
+        <div class="thp-drop__btns"><button class="th-btn th-btn--ghost" type="button" id="choose-fleet" style="padding:9px 16px;font-size:14px;">Choose a file</button></div>
+      </div>
+      <p class="thp-error" id="su-error-2b" hidden>Tick at least one line of cover.</p>
+      <div class="thp-sstep__nav">
+        <button class="thp-back" type="button" data-prev><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+        <button class="th-btn th-btn--primary th-btn--lg" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- step 3: current insurance -->
+    <section class="thp-sstep" data-step="3">
+      <div class="thp-sstep__kicker">Step 3 of 4</div>
+      <h1>Your current <span class="th-serif">insurance.</span></h1>
+      <p>So we can remind you before it expires and compare the renewal across our panel.</p>
+      <div class="thp-form">
+        <div class="is-row">
+          <div><label for="ins-insurer">Current insurer</label>
+            <select id="ins-insurer"><option value="">Choose</option><option>AIA</option><option>AIG</option><option>Allianz</option><option>Berkshire Hathaway Specialty</option><option>Chubb</option><option>Direct Asia</option><option>EQ Insurance</option><option>ERGO</option><option>Great Eastern</option><option>India International</option><option>Income</option><option>MSIG</option><option>QBE</option><option>Tokio Marine</option><option>Another insurer</option><option>Not insured yet</option></select></div>
+          <div><label for="ins-expiry">Policy expiry date</label><input id="ins-expiry" type="date"></div>
+        </div>
+        <div class="is-row">
+          <div><label for="ins-ncd">No-claim discount</label><select id="ins-ncd"><option>0%</option><option>10%</option><option>20%</option><option selected>30%</option><option>40%</option><option>50%</option></select></div>
+          <div><label for="ins-claims">Claims in the last 3 years</label><select id="ins-claims"><option>None</option><option>One</option><option>Two or more</option></select></div>
+        </div>
+        <div class="thp-drop thp-drop--sm" id="policy-drop">
+          <input type="file" id="policy-file" accept=".pdf,image/*">
+          <b style="font-size:15px;">Upload your current policy <span style="font-weight:400;color:var(--th-mute);">(optional)</span></b>
+          <p id="policy-name">We read the policy number and cover from it, so the renewal starts fully pre-filled.</p>
+          <div class="thp-drop__btns"><button class="th-btn th-btn--ghost" type="button" id="choose-policy" style="padding:9px 16px;font-size:14px;">Choose a file</button></div>
+        </div>
+        <p class="thp-error" id="su-error-3" hidden>Please choose your insurer and the expiry date.</p>
+      </div>
+      <div class="thp-sstep__nav">
+        <button class="thp-back" type="button" data-prev><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+        <button class="th-btn th-btn--primary th-btn--lg" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- step 4: road tax -->
+    <section class="thp-sstep" data-step="4" data-type="personal">
+      <div class="thp-sstep__kicker">Step 4 of 4</div>
+      <h1>Road tax, <span class="th-serif">worked out.</span></h1>
+      <p>Different cars pay different road tax. Yours is set by what is on the log card, so here it is, with the basis shown.</p>
+      <div class="thp-rt" id="rt-signup"></div>
+      <div class="thp-form" style="margin-top:22px;">
+        <label>How would you like it handled?</label>
+        <div class="thp-choice">
+          <button class="thp-choice__opt" type="button" data-rtchoice="self"><span class="th-serif">i.</span><b>I will renew it myself</b><p>We send you the LTA link before it expires. Renew there, then mark it done.</p></button>
+          <button class="thp-choice__opt is-on" type="button" data-rtchoice="thib"><span class="th-serif">ii.</span><b>Let THIB renew it for me</b><p>We confirm the amount at LTA, you pay by PayNow or card, and we renew it. Receipt in your portal.</p></button>
+        </div>
+        <p style="font-size:13px;color:var(--th-mute);line-height:1.5;">LTA will only renew if the car is insured for the period, has passed any inspection that is due, and has no outstanding fines. We check these for you.</p>
+      </div>
+      <div class="thp-sstep__nav">
+        <button class="thp-back" type="button" data-prev><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+        <button class="th-btn th-btn--red th-btn--lg" id="finish">Finish set-up</button>
+      </div>
+    </section>
+
+    <!-- step 4 (business): reminders -->
+    <section class="thp-sstep" data-step="4" data-type="business">
+      <div class="thp-sstep__kicker">Step 4 of 4</div>
+      <h1>Reminders, <span class="th-serif">by email.</span></h1>
+      <p>We write before each renewal with the list of what is covered and a one-click confirm. Choose when, and who is copied.</p>
+      <div class="thp-form">
+        <div>
+          <label>First reminder</label>
+          <div class="thp-segs"><button type="button" class="is-on" data-lead="90">90 days before</button><button type="button" data-lead="60">60 days before</button><button type="button" data-lead="45">45 days before</button></div>
+        </div>
+        <label class="thp-check"><input type="checkbox" id="su-cc-accounts" checked><span>Copy my accounts email on reminders and receipts <small id="cc-note">Add an accounts email on step 1 to use this.</small></span></label>
+        <label class="thp-check"><input type="checkbox" id="su-call" checked><span>A broker may call if an email goes unanswered for 14 days <small>Only about policies you hold with us.</small></span></label>
+      </div>
+      <div class="thp-sstep__nav">
+        <button class="thp-back" type="button" data-prev><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+        <button class="th-btn th-btn--red th-btn--lg" id="finish-biz">Finish set-up</button>
+      </div>
+    </section>
+
+    <!-- step 5: done -->
+    <section class="thp-sstep" data-step="5">
+      <div class="thp-done">
+        <div class="thp-done__mark"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h1>You are set up, <span class="th-serif" id="done-name">Alex.</span></h1>
+        <p style="margin-top:12px;color:var(--th-mute);font-size:16px;">From here, THIB does the remembering. Here is what happens next.</p>
+        <div class="thp-summary">
+          <div class="thp-row"><div class="thp-row__main"><b>Your vehicle</b><span id="sum-vehicle"></span></div></div>
+          <div class="thp-row"><div class="thp-row__main"><b>Insurance renewal</b><span id="sum-ins"></span></div></div>
+          <div class="thp-row"><div class="thp-row__main"><b>Road tax</b><span id="sum-rt"></span></div></div>
+          <div class="thp-row"><div class="thp-row__main"><b>Your broker</b><span>Someone from the motor team will say hello on WhatsApp within one business day, Monday to Friday 9.30am to 6.30pm.</span></div></div>
+        </div>
+        <div style="margin-top:28px;"><button class="th-btn th-btn--primary th-btn--lg" id="to-dashboard">Go to my dashboard</button><a class="th-btn th-btn--primary th-btn--lg" id="to-site" href="index.html" hidden>Back to the THIB website</a></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ========== APP ========== -->
+<div class="thp-app" id="app">
+  <header class="thp-topbar">
+    <div class="thp-topbar__inner">
+      <a href="index.html"><img src="assets/img/thib-logo.png" alt="TH Insurance Brokers"></a>
+      <nav class="thp-nav">
+        <a class="thp-nav__link is-active" href="#" data-view="overview">Overview<span class="thp-nav__count"></span></a>
+        <a class="thp-nav__link" href="#" data-view="policies">Policies</a>
+        <a class="thp-nav__link" href="#" data-view="roadtax">Road tax</a>
+        <a class="thp-nav__link" href="#" data-view="receipts">Receipts</a>
+        <a class="thp-nav__link" href="#" data-view="contact">Contact</a>
+      </nav>
+      <div class="thp-topbar__right">
+        <button class="thp-iconbtn" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="thp-iconbtn__dot"></span>
+        </button>
+        <div class="thp-user"><div class="thp-user__av" id="user-av">AT</div><div class="thp-user__name"><span id="user-name">Alex Tan</span><span id="user-mobile">+65 9123 4567</span></div></div>
+        <button class="thp-iconbtn" id="signout" aria-label="Sign out" title="Sign out">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="thp-shell">
+
+    <!-- ===== OVERVIEW ===== -->
+    <section class="thp-view is-on" data-view="overview">
+      <div class="thp-head">
+        <div>
+          <h1>Good <span class="th-serif">afternoon,</span> <span id="greet-name">Alex</span></h1>
+          <p>One policy needs you. Everything else is on track.</p>
+        </div>
+      </div>
+
+      <div class="thp-action">
+        <div>
+          <div class="thp-action__label"><i></i>Car insurance &middot; SXX 1234 A</div>
+          <div class="thp-action__days">50<small>days until your cover expires</small></div>
+          <p class="thp-action__sub">Three quotes from our panel are ready. Last year you paid <b>S$1,184</b>. Choose one below and your cover carries on without a gap.</p>
+        </div>
+        <div>
+          <div class="thp-track"><i class="is-done"></i><i class="is-done"></i><i class="is-now"></i><i></i><i></i></div>
+          <div class="thp-track__labels"><span>Reminder</span><span>Details</span><b>Choose a quote</b><span>Payment</span><span>Policy</span></div>
+
+          <div class="thp-quote is-pick">
+            <div class="thp-quote__logo"><img src="assets/img/partners/msig.png" alt="MSIG"></div>
+            <div class="thp-quote__main"><b>MSIG <span class="th-chip th-chip--ok" style="font-size:11px;padding:3px 8px;">Lowest price</span></b><span>Excess S$500 &middot; Any workshop &middot; NCD 30% protected</span></div>
+            <div class="thp-quote__price"><b>S$1,096</b><span>Saves S$88</span></div>
+          </div>
+          <div class="thp-quote">
+            <div class="thp-quote__logo"><img src="assets/img/partners/income.png" alt="Income"></div>
+            <div class="thp-quote__main"><b>Income</b><span>Excess S$600 &middot; Authorised workshop &middot; NCD 30%</span></div>
+            <div class="thp-quote__price"><b>S$1,142</b><span>Saves S$42</span></div>
+          </div>
+          <div class="thp-quote">
+            <div class="thp-quote__logo"><img src="assets/img/partners/aig.png" alt="AIG"></div>
+            <div class="thp-quote__main"><b>AIG</b><span>Excess S$500 &middot; Any workshop &middot; Courtesy car</span></div>
+            <div class="thp-quote__price"><b>S$1,238</b><span>+ S$54</span></div>
+          </div>
+
+          <div class="thp-action__cta">
+            <button class="th-btn th-btn--red" id="pay-btn">Choose MSIG and pay</button>
+            <a class="th-btn th-btn--on-dark-ghost" href="#" data-view="contact">Ask my broker</a>
+            <small>Illustrative figures</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>Your cover</h2><a href="#" data-view="policies">All policies</a></div>
+        <div class="thp-cards">
+          <div class="thp-pcard thp-pcard--navy">
+            <div class="thp-pcard__top"><img src="assets/img/partners/msig.png" alt="MSIG"><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>50 days</span></div>
+            <div class="thp-pcard__kind">Car insurance</div>
+            <div class="thp-pcard__id">SXX 1234 A</div>
+            <div class="thp-pcard__meta"><span>Expires</span><b>12 Dec 2026</b></div>
+          </div>
+          <div class="thp-pcard thp-pcard--warm">
+            <div class="thp-pcard__top"><img src="assets/img/partners/allianz.png" alt="Allianz"><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Active</span></div>
+            <div class="thp-pcard__kind">Home insurance</div>
+            <div class="thp-pcard__id">Blk 288</div>
+            <div class="thp-pcard__meta"><span>Expires</span><b>04 Jun 2027</b></div>
+          </div>
+          <div class="thp-pcard">
+            <div class="thp-pcard__top"><img src="assets/img/partners/aia.png" alt="AIA"><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Active</span></div>
+            <div class="thp-pcard__kind">Personal accident</div>
+            <div class="thp-pcard__id">Family plan</div>
+            <div class="thp-pcard__meta"><span>Expires</span><b>19 Mar 2027</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>Road tax</h2><a href="#" data-view="roadtax">Manage</a></div>
+        <div class="thp-list">
+          <div class="thp-row">
+            <span class="thp-row__plate">SXX 1234 A</span>
+            <div class="thp-row__main"><b>Expires 31 Jan 2027</b><span id="ov-rt">THIB renews this for you.</span></div>
+            <div class="thp-row__right"><span class="th-chip"><span class="th-chip__dot"></span>Scheduled</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thp-help">
+        <div><b>Need a hand?</b><p>The motor team is on WhatsApp Monday to Friday, 9.30am to 6.30pm.</p></div>
+        <a class="th-btn th-btn--ghost" href="https://wa.me/6598565321" target="_blank" rel="noopener">Message the motor team</a>
+      </div>
+    </section>
+
+    <!-- ===== POLICIES ===== -->
+    <section class="thp-view" data-view="policies">
+      <div class="thp-head"><div><h1>My <span class="th-serif">policies</span></h1><p>Every policy THIB holds for you, current and past.</p></div></div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>Active</h2><span>3 policies</span></div>
+        <div class="thp-list">
+          <div class="thp-row">
+            <span class="thp-row__plate">SXX 1234 A</span>
+            <div class="thp-row__main"><b>Car insurance &middot; MSIG</b><span>MTR-2025-44821 &middot; 12 Dec 2025 to 12 Dec 2026 &middot; S$1,184</span></div>
+            <div class="thp-row__right"><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Renewing</span><button class="thp-iconbtn" aria-label="Download policy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></div>
+          </div>
+          <div class="thp-row">
+            <span class="thp-row__plate">HOME</span>
+            <div class="thp-row__main"><b>Home insurance &middot; Allianz</b><span>HME-2026-10233 &middot; 04 Jun 2026 to 04 Jun 2027 &middot; S$268</span></div>
+            <div class="thp-row__right"><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Active</span><button class="thp-iconbtn" aria-label="Download policy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></div>
+          </div>
+          <div class="thp-row">
+            <span class="thp-row__plate">PA</span>
+            <div class="thp-row__main"><b>Personal accident &middot; AIA</b><span>PA-2026-77120 &middot; 19 Mar 2026 to 19 Mar 2027 &middot; S$410</span></div>
+            <div class="thp-row__right"><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Active</span><button class="thp-iconbtn" aria-label="Download policy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>Past</h2><span>Kept for your records</span></div>
+        <div class="thp-list">
+          <div class="thp-row">
+            <span class="thp-row__plate" style="opacity:.5">SXX 1234 A</span>
+            <div class="thp-row__main"><b>Car insurance &middot; MSIG</b><span>MTR-2024-39117 &middot; 12 Dec 2024 to 12 Dec 2025 &middot; S$1,241</span></div>
+            <div class="thp-row__right"><span class="th-chip"><span class="th-chip__dot"></span>Expired</span><button class="thp-iconbtn" aria-label="Download policy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></div>
+          </div>
+          <div class="thp-row">
+            <span class="thp-row__plate" style="opacity:.5">TRAVEL</span>
+            <div class="thp-row__main"><b>Travel insurance &middot; Chubb</b><span>TRV-2026-55204 &middot; single trip &middot; 02 to 14 Jun 2026 &middot; S$78</span></div>
+            <div class="thp-row__right"><span class="th-chip"><span class="th-chip__dot"></span>Expired</span><button class="thp-iconbtn" aria-label="Download policy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ROAD TAX ===== -->
+    <section class="thp-view" data-view="roadtax">
+      <div class="thp-head"><div><h1>Road <span class="th-serif">tax</span></h1><p>SXX 1234 A expires 31 Jan 2027, in 100 days. The amount below is worked out from your log card.</p></div></div>
+
+      <div class="thp-sec">
+        <div class="thp-rt thp-rt--light" id="rt-view"></div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>How it is handled</h2><a href="#" data-view="contact">Change</a></div>
+        <div class="thp-choice">
+          <button class="thp-choice__opt" type="button" data-choice>
+            <span class="th-serif">i.</span>
+            <b>I will renew it myself</b>
+            <p>We send you the LTA link before it expires. Renew there, then mark it done here so we stop reminding you.</p>
+          </button>
+          <button class="thp-choice__opt is-on" type="button" data-choice>
+            <span class="th-serif">ii.</span>
+            <b>Let THIB renew it for me</b>
+            <p>We confirm the amount at LTA, send it to you, and renew once you have paid by PayNow or card.</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-list">
+          <div class="thp-row">
+            <div class="thp-row__main"><b>Vehicle log card</b><span>Toyota Corolla Altis 1.6 &middot; uploaded 12 Dec 2025 &middot; COE to 13 Mar 2029</span></div>
+            <div class="thp-row__right"><button class="th-btn th-btn--ghost" style="padding:9px 16px;font-size:14px;">Update log card</button></div>
+          </div>
+          <div class="thp-row">
+            <div class="thp-row__main"><b>Official LTA renewal page</b><span>For renewing it yourself. Opens in a new tab.</span></div>
+            <div class="thp-row__right"><a class="th-btn th-btn--ghost" href="https://vrl.lta.gov.sg/vrls/app/ao/renew-rtx-proxy" target="_blank" rel="noopener" style="padding:9px 16px;font-size:14px;">Open LTA <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg></a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thp-sec">
+        <div class="thp-sec__head"><h2>Previous road tax</h2><span>Paid through THIB</span></div>
+        <div class="thp-list">
+          <div class="thp-row"><span class="thp-row__plate">SXX 1234 A</span><div class="thp-row__main"><b>12 months</b><span>Renewed 28 Jan 2026 &middot; valid to 31 Jan 2027</span></div><div class="thp-row__right"><span class="thp-row__num">S$742</span><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Paid</span></div></div>
+          <div class="thp-row"><span class="thp-row__plate">SXX 1234 A</span><div class="thp-row__main"><b>12 months</b><span>Renewed 25 Jan 2025 &middot; valid to 31 Jan 2026</span></div><div class="thp-row__right"><span class="thp-row__num">S$742</span><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Paid</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RECEIPTS ===== -->
+    <section class="thp-view" data-view="receipts">
+      <div class="thp-head"><div><h1><span class="th-serif">Receipts</span></h1><p>Every payment you have made through THIB.</p></div></div>
+      <div class="thp-list">
+        <table class="thp-table">
+          <thead><tr><th>Reference</th><th>What for</th><th>Date</th><th>Method</th><th>Amount</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>RCP-2026-0412</b></td><td>Road tax, 12 months &middot; SXX 1234 A</td><td>28 Jan 2026</td><td>PayNow</td><td class="thp-table__num">S$742.00</td><td style="text-align:right;"><button class="thp-iconbtn" aria-label="Download receipt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></td></tr>
+            <tr><td><b>RCP-2026-0233</b></td><td>Home insurance premium &middot; Allianz</td><td>04 Jun 2026</td><td>Card</td><td class="thp-table__num">S$268.00</td><td style="text-align:right;"><button class="thp-iconbtn" aria-label="Download receipt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></td></tr>
+            <tr><td><b>RCP-2026-0118</b></td><td>Personal accident premium &middot; AIA</td><td>19 Mar 2026</td><td>PayNow</td><td class="thp-table__num">S$410.00</td><td style="text-align:right;"><button class="thp-iconbtn" aria-label="Download receipt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></td></tr>
+            <tr><td><b>RCP-2025-1889</b></td><td>Car insurance premium &middot; MSIG</td><td>11 Dec 2025</td><td>PayNow</td><td class="thp-table__num">S$1,184.00</td><td style="text-align:right;"><button class="thp-iconbtn" aria-label="Download receipt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="thp-view" data-view="contact">
+      <div class="thp-head"><div><h1>Contact <span class="th-serif">THIB</span></h1><p>Each team has its own WhatsApp number, so your message reaches the right person.</p></div></div>
+      <div class="thp-sec">
+        <div class="thp-dept">
+          <div class="thp-dept__item"><b>Motor insurance</b><p>Car and motorcycle renewals, quotes, NCD and policy documents.</p><a class="th-btn th-btn--ghost th-btn--block" href="https://wa.me/6598565321" target="_blank" rel="noopener">Message on WhatsApp</a><div class="thp-dept__hours">Mon&ndash;Fri 9.30am&ndash;6.30pm</div></div>
+          <div class="thp-dept__item"><b>Road tax</b><p>Road tax amounts, renewals handled by THIB and receipts.</p><a class="th-btn th-btn--ghost th-btn--block" href="https://wa.me/6598565321" target="_blank" rel="noopener">Message on WhatsApp</a><div class="thp-dept__hours">Mon&ndash;Fri 9.30am&ndash;6.30pm</div></div>
+          <div class="thp-dept__item"><b>Business insurance</b><p>Fleet, employee benefits, work injury and company packages.</p><a class="th-btn th-btn--ghost th-btn--block" href="https://wa.me/6598565321" target="_blank" rel="noopener">Message on WhatsApp</a><div class="thp-dept__hours">Mon&ndash;Fri 9.30am&ndash;6.30pm</div></div>
+          <div class="thp-dept__item"><b>Accounts and payments</b><p>Payment references, receipts and refunds.</p><a class="th-btn th-btn--ghost th-btn--block" href="https://wa.me/6598565321" target="_blank" rel="noopener">Message on WhatsApp</a><div class="thp-dept__hours">Mon&ndash;Fri 9.30am&ndash;6.30pm</div></div>
+        </div>
+      </div>
+      <div class="thp-sec">
+        <div class="thp-list">
+          <div class="thp-row"><div class="thp-row__main"><b>Call the office</b><span>+65 6515 5333 &middot; Monday to Friday 9.30am to 6.30pm</span></div><div class="thp-row__right"><a class="th-btn th-btn--primary" href="tel:+6565155333" style="padding:9px 16px;font-size:14px;">Call</a></div></div>
+          <div class="thp-row"><div class="thp-row__main"><b>Email</b><span>Enquiries@thib.com.sg</span></div><div class="thp-row__right"><a class="th-btn th-btn--ghost" href="mailto:Enquiries@thib.com.sg" style="padding:9px 16px;font-size:14px;">Write</a></div></div>
+          <div class="thp-row"><div class="thp-row__main"><b>Visit by appointment</b><span>71 Bukit Batok Crescent, #11-07 Prestige Centre, Singapore 658071</span></div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="thp-tabbar">
+    <a class="thp-tabbar__link is-active" href="#" data-view="overview"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Overview<span class="thp-tabbar__badge"></span></a>
+    <a class="thp-tabbar__link" href="#" data-view="policies"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/></svg>Policies</a>
+    <a class="thp-tabbar__link" href="#" data-view="roadtax"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 7V5h10v2"/><path d="M3 13h18"/></svg>Road tax</a>
+    <a class="thp-tabbar__link" href="#" data-view="receipts"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18l2.5-1.6L10 21l2-1.6L14 21l2.5-1.6L19 21V3Z"/><path d="M9 8h6M9 12h6"/></svg>Receipts</a>
+    <a class="thp-tabbar__link" href="#" data-view="contact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>Contact</a>
+  </nav>
+</div>
+
+<script src="assets/js/portal.js"></script>
+</body>
+</html>

@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff admin — TH Insurance Brokers</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/thib-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/thib.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body class="tha-body">
+
+<!-- ========== STAFF SIGN IN ========== -->
+<div class="tha-login" id="login">
+  <div class="tha-login__card">
+    <img src="assets/img/thib-logo.png" alt="TH Insurance Brokers">
+
+    <div id="login-step-1">
+      <h1>Staff <span class="th-serif">sign in</span></h1>
+      <p>Use your THIB work account.</p>
+      <div class="thp-field">
+        <label for="email">Work email</label>
+        <input class="tha-input" id="email" type="email" autocomplete="username" placeholder="name@thib.com.sg" value="eileen@thib.com.sg">
+      </div>
+      <div class="thp-field">
+        <label for="password">Password</label>
+        <input class="tha-input" id="password" type="password" autocomplete="current-password" placeholder="••••••••••" value="demo-password">
+      </div>
+      <button class="th-btn th-btn--primary th-btn--lg th-btn--block" id="login-next" style="margin-top:22px;">Continue</button>
+      <div class="tha-login__note">
+        <b>Demo prototype.</b> Credentials are pre-filled and nothing is checked. Clients, policies, quotes and amounts are invented.
+      </div>
+    </div>
+
+    <div id="login-step-2" hidden>
+      <h1>Two-factor <span class="th-serif">check</span></h1>
+      <p>Enter the 6-digit code from your authenticator app.</p>
+      <div class="thp-otp" id="staff-otp" style="margin-top:22px;">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+        <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+      </div>
+      <button class="th-btn th-btn--primary th-btn--lg th-btn--block" id="login-verify" style="margin-top:22px;">Sign in</button>
+      <p class="thp-authmeta"><button type="button" id="login-back">Back</button></p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP ========== -->
+<div class="tha-app" id="admin">
+
+  <!-- sidebar -->
+  <aside class="tha-side" id="side">
+    <div class="tha-side__brand">
+      <img src="assets/img/thib-logo.png" alt="THIB">
+      <span>Staff</span>
+    </div>
+    <nav class="tha-side__nav">
+      <a class="tha-side__link is-active" href="#" data-av="renewals">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/></svg>
+        Renewals <span class="tha-side__count">3</span>
+      </a>
+      <a class="tha-side__link" href="#" data-av="roadtax">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 7V5h10v2"/><path d="M3 13h18"/></svg>
+        Road tax <span class="tha-side__count">2</span>
+      </a>
+      <a class="tha-side__link" href="#" data-av="payments">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        Payments <span class="tha-side__count">2</span>
+      </a>
+      <a class="tha-side__link" href="#" data-av="inbox">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1Z"/></svg>
+        Inbox <span class="tha-side__count" id="inbox-count">3</span>
+      </a>
+      <a class="tha-side__link" href="#" data-av="automation">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Automation
+      </a>
+
+      <div class="tha-side__sep">Setup</div>
+      <a class="tha-side__link" href="#" data-av="departments">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        Departments
+      </a>
+      <a class="tha-side__link" href="#" data-av="clients">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M17 11a3 3 0 1 0 0-6"/><path d="M19 20a6 6 0 0 0-3-5"/></svg>
+        Clients
+      </a>
+      <a class="tha-side__link" href="#" data-av="reports">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+        Reports
+      </a>
+      <a class="tha-side__link" href="#" data-av="users">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Users &amp; access
+      </a>
+    </nav>
+
+    <a class="tha-side__user" href="#" data-av="users" title="Your profile and staff access">
+      <div class="tha-side__av">EG</div>
+      <div>
+        <b>Eileen Goh</b>
+        <span>CEO &middot; Admin</span>
+      </div>
+    </a>
+  </aside>
+
+  <div class="tha-main">
+    <!-- top bar -->
+    <div class="tha-top">
+      <button class="thp-iconbtn" id="side-toggle" aria-label="Menu" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div class="tha-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search name, plate or policy number">
+      </div>
+      <div class="tha-top__right">
+        <button class="thp-iconbtn" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="thp-iconbtn__dot"></span>
+        </button>
+        <button class="thp-iconbtn" id="staff-signout" aria-label="Sign out" title="Sign out">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tha-content">
+
+      <!-- ===== RENEWALS ===== -->
+      <section class="tha-view is-on" data-av="renewals">
+        <div class="tha-head">
+          <div>
+            <h1>Insurance renewals</h1>
+            <p>Thursday, 23 October 2026 &middot; 12 policies in the next 90 days</p>
+          </div>
+          <div class="tha-head__actions">
+            <button class="th-btn th-btn--ghost">Export</button>
+            <button class="th-btn th-btn--primary">Add a renewal</button>
+          </div>
+        </div>
+
+        <div data-signups></div>
+        <div class="tha-stats">
+          <div class="tha-stat">
+            <div class="tha-stat__label">In progress</div>
+            <div class="tha-stat__value">9</div>
+            <div class="tha-stat__foot">Across motor and business</div>
+          </div>
+          <div class="tha-stat">
+            <div class="tha-stat__label">Need action today</div>
+            <div class="tha-stat__value is-alert">3</div>
+            <div class="tha-stat__foot">2 quotes to send, 1 payment to confirm</div>
+          </div>
+          <div class="tha-stat">
+            <div class="tha-stat__label">Quotes out</div>
+            <div class="tha-stat__value">1</div>
+            <div class="tha-stat__foot">Awaiting client choice</div>
+          </div>
+          <div class="tha-stat">
+            <div class="tha-stat__label">Renewed in October</div>
+            <div class="tha-stat__value">S$3,635</div>
+            <div class="tha-stat__foot">3 policies</div>
+          </div>
+        </div>
+
+        <div class="tha-pipe" id="pipe">
+          <div class="tha-pipe__tabs">
+            <button class="tha-pipe__tab is-on" data-status="all"><span>All renewals</span><b>11</b></button>
+            <button class="tha-pipe__tab" data-status="reminder"><span><i style="background:#C3CCDB"></i>Reminder sent</span><b>4</b></button>
+            <button class="tha-pipe__tab" data-status="details"><span><i style="background:#2E4FA0"></i>Details received</span><b>2</b></button>
+            <button class="tha-pipe__tab" data-status="quotes"><span><i style="background:#E0A33C"></i>Quotes sent</span><b>2</b></button>
+            <button class="tha-pipe__tab" data-status="payment"><span><i style="background:#9A5B00"></i>Awaiting payment</span><b>1</b></button>
+            <button class="tha-pipe__tab" data-status="renewed"><span><i style="background:#0F7B52"></i>Renewed</span><b>3</b></button>
+          </div>
+          <div class="tha-pipe__bar">
+            <i style="width:34%;background:#C3CCDB"></i>
+            <i style="width:17%;background:#2E4FA0"></i>
+            <i style="width:17%;background:#E0A33C"></i>
+            <i style="width:8%;background:#9A5B00"></i>
+            <i style="width:24%;background:#0F7B52"></i>
+          </div>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head">
+            <div><h2>Renewals</h2><p id="pipe-caption">All 11, soonest expiry first</p></div>
+          </div>
+          <table class="tha-table">
+            <thead>
+              <tr><th>Client</th><th>Expiry</th><th>Days left</th><th>Status</th><th>Premium</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr data-open="rachel" data-status="payment">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--2">RL</div><div><b>Rachel Lim</b><span>SXX 2287 K</span></div></div></td>
+                <td>28 Oct 2026</td>
+                <td><div class="tha-due">5 days<div class="tha-due__bar"><i class="is-urgent" style="width:94%"></i></div></div></td>
+                <td><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Awaiting payment</span></td>
+                <td class="tha-num">S$1,096</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="daniel" data-status="quotes">
+                <td><div class="tha-table__client"><div class="tha-av">DO</div><div><b>Daniel Ong</b><span>SXX 4410 M</span></div></div></td>
+                <td>03 Nov 2026</td>
+                <td><div class="tha-due">11 days<div class="tha-due__bar"><i class="is-soon" style="width:82%"></i></div></div></td>
+                <td><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Quotes sent</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="limsons" data-status="details">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--4">L&amp;</div><div><b>Lim &amp; Sons Logistics<span class="tha-tag">Business</span></b><span>Fleet motor, 6 vehicles</span></div></div></td>
+                <td>08 Nov 2026</td>
+                <td><div class="tha-due">16 days<div class="tha-due__bar"><i class="is-soon" style="width:72%"></i></div></div></td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Details received</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="faizal" data-status="details">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">MF</div><div><b>Mohd Faizal</b><span>SXX 9021 Z</span></div></div></td>
+                <td>19 Nov 2026</td>
+                <td><div class="tha-due">27 days<div class="tha-due__bar"><i style="width:55%"></i></div></div></td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Details received</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="priya" data-status="reminder">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--5">PS</div><div><b>Priya Suresh</b><span>SXX 3358 T</span></div></div></td>
+                <td>25 Nov 2026</td>
+                <td><div class="tha-due">33 days<div class="tha-due__bar"><i style="width:45%"></i></div></div></td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Reminder sent</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="chen" data-status="reminder">
+                <td><div class="tha-table__client"><div class="tha-av">CW</div><div><b>Chen Wei Ming</b><span>SXX 7742 B</span></div></div></td>
+                <td>30 Nov 2026</td>
+                <td><div class="tha-due">38 days<div class="tha-due__bar"><i style="width:37%"></i></div></div></td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Reminder sent</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="orchid" data-status="reminder">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--4">OC</div><div><b>Orchid Catering<span class="tha-tag">Business</span></b><span>Fleet motor, 3 vehicles</span></div></div></td>
+                <td>06 Dec 2026</td>
+                <td><div class="tha-due">44 days<div class="tha-due__bar"><i style="width:27%"></i></div></div></td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Reminder sent</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="alex" data-status="quotes">
+                <td><div class="tha-table__client"><div class="tha-av">AT</div><div><b>Alex Tan</b><span>SXX 1234 A</span></div></div></td>
+                <td>12 Dec 2026</td>
+                <td><div class="tha-due">50 days<div class="tha-due__bar"><i style="width:18%"></i></div></div></td>
+                <td><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Quotes sent</span></td>
+                <td>&mdash;</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="henry" data-status="renewed">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">HL</div><div><b>Henry Lim</b><span>SXX 8820 L</span></div></div></td>
+                <td>Renewed</td>
+                <td><div class="tha-due">&mdash;</div></td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Renewed</span></td>
+                <td class="tha-num">S$1,240</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="joanne" data-status="renewed">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">JK</div><div><b>Joanne Koh</b><span>SXX 5531 R</span></div></div></td>
+                <td>Renewed</td>
+                <td><div class="tha-due">&mdash;</div></td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Renewed</span></td>
+                <td class="tha-num">S$980</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="ravi" data-status="renewed">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">RN</div><div><b>Ravi Nair</b><span>SXX 6674 N</span></div></div></td>
+                <td>Renewed</td>
+                <td><div class="tha-due">&mdash;</div></td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Renewed</span></td>
+                <td class="tha-num">S$1,415</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tha-panel__foot">
+            <span id="pipe-count">Showing 11 of 11</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ROAD TAX ===== -->
+      <section class="tha-view" data-av="roadtax">
+        <div class="tha-head">
+          <div>
+            <h1>Road tax</h1>
+            <p>Two groups: clients who renew themselves, and clients THIB renews for.</p>
+          </div>
+          <div class="tha-head__actions">
+            <a class="th-btn th-btn--ghost" href="https://vrl.lta.gov.sg/vrls/app/ao/renew-rtx-proxy" target="_blank" rel="noopener">
+              Open LTA page
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="tha-stats">
+          <div class="tha-stat"><div class="tha-stat__label">Amounts to check</div><div class="tha-stat__value is-alert">2</div><div class="tha-stat__foot">Look up at LTA and send</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Paid, to renew</div><div class="tha-stat__value">1</div><div class="tha-stat__foot">Renew at LTA, then confirm</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Client renews</div><div class="tha-stat__value">4</div><div class="tha-stat__foot">Link sent, awaiting confirmation</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Collected for LTA</div><div class="tha-stat__value">S$1,484</div><div class="tha-stat__foot">Held, payable to LTA</div></div>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head">
+            <div><h2>THIB renews for the client</h2><p>We check the amount, collect payment and renew at LTA</p></div>
+          </div>
+          <table class="tha-table">
+            <thead><tr><th>Client</th><th>Plate</th><th>Road tax expiry</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr data-open="rt-priya">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--5">PS</div><div><b>Priya Suresh</b><span>Mon&ndash;Fri contact</span></div></div></td>
+                <td><b>SXX 3358 T</b></td>
+                <td>14 Nov 2026</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Amount to check</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="rt-chen">
+                <td><div class="tha-table__client"><div class="tha-av">CW</div><div><b>Chen Wei Ming</b><span>WhatsApp preferred</span></div></div></td>
+                <td><b>SXX 7742 B</b></td>
+                <td>22 Nov 2026</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Amount to check</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="rt-henry">
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">HL</div><div><b>Henry Lim</b><span>Paid 21 Oct</span></div></div></td>
+                <td><b>SXX 8820 L</b></td>
+                <td>30 Nov 2026</td>
+                <td><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Paid, to renew</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr data-open="rt-alex">
+                <td><div class="tha-table__client"><div class="tha-av">AT</div><div><b>Alex Tan</b><span>Reminder due 01 Jan</span></div></div></td>
+                <td><b>SXX 1234 A</b></td>
+                <td>31 Jan 2027</td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Scheduled</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head"><div><h2>Client renews at LTA</h2><p>We send the link and chase until they confirm</p></div></div>
+          <table class="tha-table">
+            <thead><tr><th>Client</th><th>Plate</th><th>Road tax expiry</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--2">RL</div><div><b>Rachel Lim</b></div></div></td>
+                <td><b>SXX 2287 K</b></td>
+                <td>09 Nov 2026</td>
+                <td><span class="th-chip th-chip--warn"><span class="th-chip__dot"></span>Link sent</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av">DO</div><div><b>Daniel Ong</b></div></div></td>
+                <td><b>SXX 4410 M</b></td>
+                <td>28 Nov 2026</td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Not chosen</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--3">MF</div><div><b>Mohd Faizal</b></div></div></td>
+                <td><b>SXX 9021 Z</b></td>
+                <td>03 Dec 2026</td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Renewed by client</span></td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== PAYMENTS ===== -->
+      <section class="tha-view" data-av="payments">
+        <div class="tha-head">
+          <div><h1>Payments</h1><p>Every payment taken through the app, and what is still to be matched.</p></div>
+          <div class="tha-head__actions">
+            <button class="th-btn th-btn--ghost">Upload bank statement</button>
+            <button class="th-btn th-btn--primary">Export for accounts</button>
+          </div>
+        </div>
+
+        <div class="tha-stats">
+          <div class="tha-stat"><div class="tha-stat__label">Collected in October</div><div class="tha-stat__value">S$5,119</div><div class="tha-stat__foot">9 payments</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Unmatched</div><div class="tha-stat__value is-alert">2</div><div class="tha-stat__foot">No bank record yet</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Held for insurers</div><div class="tha-stat__value">S$3,635</div><div class="tha-stat__foot">Payable on, not THIB income</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Held for LTA</div><div class="tha-stat__value">S$1,484</div><div class="tha-stat__foot">Road tax, payable to LTA</div></div>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head">
+            <div><h2>Ledger</h2></div>
+            <div class="tha-filters">
+              <button class="tha-filter is-on">All</button>
+              <button class="tha-filter">Unmatched</button>
+              <button class="tha-filter">Premium</button>
+              <button class="tha-filter">Road tax</button>
+            </div>
+          </div>
+          <table class="tha-table">
+            <thead><tr><th>Reference</th><th>Client</th><th>What for</th><th>Payable to</th><th>Method</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>RCP-2026-0781</b><br><span style="font-size:12.5px;color:var(--th-mute);">22 Oct 2026</span></td>
+                <td>Henry Lim</td>
+                <td>Road tax, 12 months</td>
+                <td>LTA</td>
+                <td>PayNow</td>
+                <td class="tha-num">S$742.00</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Unmatched</span></td>
+              </tr>
+              <tr>
+                <td><b>RCP-2026-0780</b><br><span style="font-size:12.5px;color:var(--th-mute);">21 Oct 2026</span></td>
+                <td>Rachel Lim</td>
+                <td>Motor premium &middot; SXX 2287 K</td>
+                <td>MSIG</td>
+                <td>Card</td>
+                <td class="tha-num">S$1,096.00</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Unmatched</span></td>
+              </tr>
+              <tr>
+                <td><b>RCP-2026-0774</b><br><span style="font-size:12.5px;color:var(--th-mute);">17 Oct 2026</span></td>
+                <td>Ravi Nair</td>
+                <td>Motor premium &middot; SXX 6674 N</td>
+                <td>Income</td>
+                <td>PayNow</td>
+                <td class="tha-num">S$1,415.00</td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Matched</span></td>
+              </tr>
+              <tr>
+                <td><b>RCP-2026-0769</b><br><span style="font-size:12.5px;color:var(--th-mute);">14 Oct 2026</span></td>
+                <td>Joanne Koh</td>
+                <td>Motor premium &middot; SXX 5531 R</td>
+                <td>MSIG</td>
+                <td>PayNow</td>
+                <td class="tha-num">S$980.00</td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Matched</span></td>
+              </tr>
+              <tr>
+                <td><b>RCP-2026-0761</b><br><span style="font-size:12.5px;color:var(--th-mute);">09 Oct 2026</span></td>
+                <td>Henry Lim</td>
+                <td>Motor premium &middot; SXX 8820 L</td>
+                <td>AIG</td>
+                <td>Bank transfer</td>
+                <td class="tha-num">S$1,240.00</td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Matched</span></td>
+              </tr>
+              <tr>
+                <td><b>RCP-2026-0755</b><br><span style="font-size:12.5px;color:var(--th-mute);">04 Oct 2026</span></td>
+                <td>Chen Wei Ming</td>
+                <td>Road tax, 12 months</td>
+                <td>LTA</td>
+                <td>PayNow</td>
+                <td class="tha-num">S$742.00</td>
+                <td><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Matched</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tha-panel__foot">
+            <button class="th-btn th-btn--ghost">Match against payout report</button>
+            <span style="font-size:13px;color:var(--th-mute);margin-left:auto;">Money held for insurers and LTA is shown apart from THIB income.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== AUTOMATION ===== -->
+      <section class="tha-view" data-av="automation">
+        <div class="tha-head">
+          <div><h1>Automation</h1><p>The scheduler runs at 09:00 Singapore time and sends what is due.</p></div>
+          <div class="tha-head__actions">
+            <button class="th-btn th-btn--ghost">Pause all sending</button>
+            <button class="th-btn th-btn--primary">Run now</button>
+          </div>
+        </div>
+
+        <div class="tha-split tha-split--wide">
+          <div class="tha-panel">
+            <div class="tha-panel__head"><div><h2>Reminder rules</h2><p>When each segment is contacted, and from which department</p></div></div>
+            <div class="tha-panel__body">
+              <div class="tha-rule">
+                <button class="tha-toggle is-on" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>Individual motor &middot; 60 days</b><span>WhatsApp from Motor insurance &middot; template MTR_REMIND_1</span></div>
+                <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Approved</span>
+              </div>
+              <div class="tha-rule">
+                <button class="tha-toggle is-on" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>Individual motor &middot; 30 days</b><span>WhatsApp from Motor insurance &middot; template MTR_REMIND_2</span></div>
+                <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Approved</span>
+              </div>
+              <div class="tha-rule">
+                <button class="tha-toggle is-on" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>Road tax &middot; 60 and 30 days</b><span>WhatsApp from Road tax &middot; template RTX_OPTIONS</span></div>
+                <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Approved</span>
+              </div>
+              <div class="tha-rule">
+                <button class="tha-toggle is-on" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>Business &middot; 90 and 60 days</b><span>Email from Business insurance, accounts in copy</span></div>
+                <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Approved</span>
+              </div>
+              <div class="tha-rule">
+                <button class="tha-toggle" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>SMS fallback</b><span>When WhatsApp fails or goes unread for 48 hours</span></div>
+                <span class="th-chip"><span class="th-chip__dot"></span>Phase 2</span>
+              </div>
+              <div class="tha-rule">
+                <button class="tha-toggle is-on" aria-label="Toggle rule"></button>
+                <div class="tha-rule__main"><b>Call task &middot; 14 days, no reply</b><span>Assigned to the account manager</span></div>
+                <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>On</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="tha-panel">
+              <div class="tha-panel__head"><div><h2>Today's run</h2><p>09:00, 23 Oct 2026</p></div><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Completed</span></div>
+              <div class="tha-panel__body">
+                <div class="tha-rule"><div class="tha-rule__main"><b>7 messages sent</b><span>5 delivered, 2 read</span></div></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>1 call task created</b><span>Grace Teo, no reply in 14 days</span></div></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>0 failures</b><span>All numbers valid</span></div></div>
+              </div>
+            </div>
+
+            <div class="tha-panel">
+              <div class="tha-panel__head"><div><h2>Needs attention</h2><p>Skipped by the run</p></div><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>3</span></div>
+              <div class="tha-panel__body">
+                <div class="tha-rule"><div class="tha-rule__main"><b>Grace Teo</b><span>No consent recorded for WhatsApp</span></div></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>Orchid Catering</b><span>No email for the policy contact</span></div></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>K. Rajan</b><span>Opted out on 02 Sep 2026</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== DEPARTMENTS ===== -->
+      <section class="tha-view" data-av="departments">
+        <div class="tha-head">
+          <div><h1>Departments</h1><p>Each department has its own WhatsApp number. Replies land in that team's inbox.</p></div>
+          <div class="tha-head__actions"><button class="th-btn th-btn--primary">Add a department</button></div>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__body">
+            <div class="tha-split">
+              <div class="tha-dept">
+                <b>Motor insurance</b>
+                <div class="tha-dept__num">+65 9856 5321</div>
+                <p>Car and motorcycle renewals, quotes, NCD and policy documents.</p>
+                <div class="tha-dept__meta"><span>Mon&ndash;Fri 9.30am&ndash;6.30pm</span><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Registered</span></div>
+              </div>
+              <div class="tha-dept">
+                <b>Road tax</b>
+                <div class="tha-dept__num">Not yet assigned</div>
+                <p>Road tax amounts, renewals handled by THIB, receipts.</p>
+                <div class="tha-dept__meta"><span>Mon&ndash;Fri 9.30am&ndash;6.30pm</span><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Needs a number</span></div>
+              </div>
+              <div class="tha-dept">
+                <b>Business insurance</b>
+                <div class="tha-dept__num">Not yet assigned</div>
+                <p>Fleet, employee benefits, work injury and company packages.</p>
+                <div class="tha-dept__meta"><span>Mon&ndash;Fri 9.30am&ndash;6.30pm</span><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Needs a number</span></div>
+              </div>
+              <div class="tha-dept">
+                <b>Accounts and payments</b>
+                <div class="tha-dept__num">Not yet assigned</div>
+                <p>Payment references, receipts and refunds.</p>
+                <div class="tha-dept__meta"><span>Mon&ndash;Fri 9.30am&ndash;6.30pm</span><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>Needs a number</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="tha-panel__foot">
+            <span style="font-size:13px;color:var(--th-mute);">Each number must be registered on the WhatsApp Business Platform before it can send. Allow time for Meta template approval.</span>
+          </div>
+        </div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head"><div><h2>Message routing</h2><p>Which message goes out from which number</p></div></div>
+          <table class="tha-table">
+            <thead><tr><th>Message</th><th>Sent from</th><th>Channel</th><th>Template</th></tr></thead>
+            <tbody>
+              <tr><td><b>Motor renewal reminder</b></td><td>Motor insurance</td><td>WhatsApp</td><td>MTR_REMIND_1</td></tr>
+              <tr><td><b>Quotes ready</b></td><td>Motor insurance</td><td>WhatsApp</td><td>MTR_QUOTES</td></tr>
+              <tr><td><b>Road tax options</b></td><td>Road tax</td><td>WhatsApp</td><td>RTX_OPTIONS</td></tr>
+              <tr><td><b>Road tax renewed, receipt</b></td><td>Road tax</td><td>WhatsApp</td><td>RTX_DONE</td></tr>
+              <tr><td><b>Payment received</b></td><td>Accounts and payments</td><td>WhatsApp</td><td>PAY_RECEIVED</td></tr>
+              <tr><td><b>Business renewal</b></td><td>Business insurance</td><td>Email</td><td>&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== CLIENTS ===== -->
+      <section class="tha-view" data-av="clients">
+        <div class="tha-head">
+          <div><h1>Clients</h1><p>Imported from THIB's records. Anything missing is flagged.</p></div>
+          <div class="tha-head__actions">
+            <button class="th-btn th-btn--ghost">Import</button>
+            <button class="th-btn th-btn--primary">Add a client</button>
+          </div>
+        </div>
+
+        <div data-signups></div>
+        <div class="tha-stats">
+          <div class="tha-stat"><div class="tha-stat__label">Clients</div><div class="tha-stat__value" id="clients-total">412</div><div class="tha-stat__foot" id="clients-split">368 individual, 44 business</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Vehicles</div><div class="tha-stat__value">503</div><div class="tha-stat__foot">Across all clients</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Needs attention</div><div class="tha-stat__value is-alert">27</div><div class="tha-stat__foot">Missing contact, expiry or consent</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Consent on file</div><div class="tha-stat__value">385</div><div class="tha-stat__foot">93% of clients</div></div>
+        </div>
+
+        <div data-clients></div>
+
+        <div data-directory></div>
+
+        <div class="tha-panel">
+          <div class="tha-panel__head">
+            <div><h2>Needs attention</h2><p>These records are skipped by the scheduler until they are fixed</p></div>
+            <div class="tha-filters"><button class="tha-filter is-on">All 27</button><button class="tha-filter">No consent</button><button class="tha-filter">No contact</button><button class="tha-filter">No expiry</button></div>
+          </div>
+          <table class="tha-table">
+            <thead><tr><th>Client</th><th>Type</th><th>What is missing</th><th>Source</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--5">GT</div><div><b>Grace Teo</b><span>SXX 1105 E</span></div></div></td>
+                <td>Individual</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>No WhatsApp consent</span></td>
+                <td>Import, 02 Oct 2026</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--4">OC</div><div><b>Orchid Catering</b><span>3 vehicles</span></div></div></td>
+                <td>Business</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>No email for contact</span></td>
+                <td>Import, 02 Oct 2026</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--5">KR</div><div><b>K. Rajan</b><span>SXX 4417 W</span></div></div></td>
+                <td>Individual</td>
+                <td><span class="th-chip"><span class="th-chip__dot"></span>Opted out 02 Sep 2026</span></td>
+                <td>Client request</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+              <tr>
+                <td><div class="tha-table__client"><div class="tha-av tha-av--5">SW</div><div><b>Serene Wong</b><span>SXX 2901 J</span></div></div></td>
+                <td>Individual</td>
+                <td><span class="th-chip th-chip--bad"><span class="th-chip__dot"></span>No policy expiry date</span></td>
+                <td>Import, 02 Oct 2026</td>
+                <td><svg class="tha-chevron" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tha-panel__foot"><span style="font-size:13px;color:var(--th-mute);">Showing 4 of 27</span></div>
+        </div>
+      </section>
+
+      <!-- ===== REPORTS ===== -->
+      <section class="tha-view" data-av="reports">
+        <div class="tha-head">
+          <div><h1>Reports</h1><p>Baselines to be agreed with THIB. Figures below are from the demo data.</p></div>
+          <div class="tha-head__actions"><button class="th-btn th-btn--ghost">Export</button></div>
+        </div>
+
+        <div class="tha-stats">
+          <div class="tha-stat"><div class="tha-stat__label">Renewal rate</div><div class="tha-stat__value">82%</div><div class="tha-stat__foot">Of policies expiring in October</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Days, request to quote</div><div class="tha-stat__value">1.4</div><div class="tha-stat__foot">Was 3.8 before the app</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Days, quote to payment</div><div class="tha-stat__value">2.1</div><div class="tha-stat__foot">Median across October</div></div>
+          <div class="tha-stat"><div class="tha-stat__label">Reminders delivered</div><div class="tha-stat__value">96%</div><div class="tha-stat__foot">142 of 148 sent</div></div>
+        </div>
+
+        <div class="tha-split">
+          <div class="tha-panel">
+            <div class="tha-panel__head"><div><h2>Renewals due</h2><p>Next 90 days</p></div></div>
+            <div class="tha-panel__body">
+              <div class="tha-bars">
+                <div class="tha-bars__col"><div class="tha-bars__bar" style="height:46%"></div><div class="tha-bars__label">Oct</div></div>
+                <div class="tha-bars__col"><div class="tha-bars__bar" style="height:78%"></div><div class="tha-bars__label">Nov</div></div>
+                <div class="tha-bars__col"><div class="tha-bars__bar" style="height:100%"></div><div class="tha-bars__label">Dec</div></div>
+                <div class="tha-bars__col"><div class="tha-bars__bar is-muted" style="height:62%"></div><div class="tha-bars__label">Jan</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tha-panel">
+            <div class="tha-panel__head"><div><h2>Lost renewals</h2><p>With the reason staff recorded</p></div></div>
+            <div class="tha-panel__body">
+              <div class="tha-rule"><div class="tha-rule__main"><b>Cheaper direct</b><span>Client bought from the insurer</span></div><span class="tha-num">3</span></div>
+              <div class="tha-rule"><div class="tha-rule__main"><b>Sold the car</b><span>No replacement vehicle</span></div><span class="tha-num">2</span></div>
+              <div class="tha-rule"><div class="tha-rule__main"><b>No response</b><span>Reminder and call task, no reply</span></div><span class="tha-num">2</span></div>
+              <div class="tha-rule"><div class="tha-rule__main"><b>Moved broker</b><span>Reason not given</span></div><span class="tha-num">1</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===== INBOX ===== -->
+      <section class="tha-view" data-av="inbox">
+        <div class="tha-head">
+          <div><h1>Inbox</h1><p>Client replies by email and WhatsApp, routed to the department that sent the message. Nothing here lives in a personal mailbox.</p></div>
+          <div class="tha-head__actions"><button class="th-btn th-btn--ghost">Mark all read</button></div>
+        </div>
+        <div data-inbox></div>
+      </section>
+
+      <!-- ===== USERS & ACCESS ===== -->
+      <section class="tha-view" data-av="users">
+        <div class="tha-head">
+          <div><h1>Users &amp; <span class="th-serif">access</span></h1><p>Who can sign in to the THIB staff admin, and what each person can do. Admins invite staff; nobody is granted access until they finish setting up.</p></div>
+          <div class="tha-head__actions"><button class="th-btn th-btn--primary" id="invite-btn">Invite staff</button></div>
+        </div>
+
+        <div class="tha-panel" id="invite-form" hidden>
+          <div class="tha-panel__head"><div><h2>Invite a staff member</h2><p>They get an email link, set a password and enrol an authenticator app. Access starts only when that is done.</p></div></div>
+          <div class="tha-panel__body">
+            <div class="tha-invite">
+              <div><label for="inv-name">Full name</label><input class="tha-input" id="inv-name" type="text" placeholder="e.g. Tan Wei Ling"></div>
+              <div><label for="inv-email">Work email</label><input class="tha-input" id="inv-email" type="email" placeholder="name@thib.com.sg"></div>
+              <div><label for="inv-role">Role</label><select class="tha-input" id="inv-role"><option value="staff">Staff</option><option value="accounts">Accounts</option><option value="manager">Manager</option><option value="admin">Admin</option></select></div>
+              <div><label for="inv-dept">Department</label><select class="tha-input" id="inv-dept"><option>Motor insurance</option><option>Road tax</option><option>Business insurance</option><option>Accounts and payments</option><option>Client relationships</option><option>Management</option></select></div>
+            </div>
+            <p class="thp-error" id="inv-error" hidden>Enter a name and a work email address.</p>
+          </div>
+          <div class="tha-panel__foot">
+            <button class="th-btn th-btn--primary" id="inv-send" style="padding:9px 16px;font-size:14px;">Send invitation</button>
+            <button class="th-btn th-btn--ghost" id="inv-cancel" style="padding:9px 16px;font-size:14px;">Cancel</button>
+          </div>
+        </div>
+
+        <div data-users></div>
+
+        <div class="tha-split">
+          <div class="tha-panel">
+            <div class="tha-panel__head"><div><h2>What each role can do</h2><p>Least privilege by default. Change a person's role in the table above.</p></div></div>
+            <table class="tha-table tha-perm">
+              <thead><tr><th></th><th>Admin</th><th>Manager</th><th>Staff</th><th>Accounts</th></tr></thead>
+              <tbody>
+                <tr><td><b>Renewals, road tax, clients</b><br><span>Own department for Staff; all departments for others</span></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td></tr>
+                <tr><td><b>Send quotes and policies to clients</b></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td></tr>
+                <tr><td><b>Payments, ledger, exports</b></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td><td><i class="is-on"></i></td></tr>
+                <tr><td><b>Automation rules and templates</b></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td><td><i></i></td></tr>
+                <tr><td><b>Reports</b></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td><td><i class="is-on"></i></td></tr>
+                <tr><td><b>Users, roles, departments, settings</b></td><td><i class="is-on"></i></td><td><i></i></td><td><i></i></td><td><i></i></td></tr>
+                <tr><td><b>Audit log</b></td><td><i class="is-on"></i></td><td><i class="is-on"></i></td><td><i></i></td><td><i></i></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="tha-panel">
+              <div class="tha-panel__head"><div><h2>Security rules</h2><p>Apply to every account</p></div></div>
+              <div class="tha-panel__body">
+                <div class="tha-rule"><div class="tha-rule__main"><b>Two-factor sign-in required</b><span>Authenticator app on every account, enrolled at first sign-in</span></div><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>On</span></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>Sessions end after 8 hours idle</b><span>Staff sign in again with 2FA</span></div><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>On</span></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>Access ends when an account is deactivated</b><span>Immediate, including open sessions</span></div><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>On</span></div>
+                <div class="tha-rule"><div class="tha-rule__main"><b>Every sign-in and permission change is logged</b><span>Who, when, from where. Kept 7 years.</span></div><span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>On</span></div>
+              </div>
+            </div>
+            <div class="tha-panel">
+              <div class="tha-panel__head"><div><h2>Platform support access</h2><p>The platform operator's team</p></div></div>
+              <div class="tha-panel__body">
+                <div class="tha-rule"><div class="tha-rule__main"><b>No standing access to THIB's data</b><span>Support access is granted by a THIB admin for a set period, and logged</span></div><span class="th-chip"><span class="th-chip__dot"></span>Off</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===== DETAIL DRAWER ===== -->
+  <div class="tha-drawer__scrim" id="scrim"></div>
+  <aside class="tha-drawer" id="drawer">
+    <div class="tha-drawer__head">
+      <div>
+        <h2 id="d-name">Rachel Lim</h2>
+        <p id="d-sub">SXX 2287 K &middot; motor renewal &middot; expires 28 Oct 2026</p>
+      </div>
+      <button class="tha-drawer__close" id="d-close" aria-label="Close">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="tha-drawer__body">
+      <div class="tha-drawer__sec">
+        <h3>What the client sent</h3>
+        <dl class="tha-kv">
+          <dt>Vehicle</dt><dd>Toyota Corolla Altis 1.6, 2019</dd>
+          <dt>Main driver</dt><dd>Rachel Lim, licence since 2011</dd>
+          <dt>Other drivers</dt><dd>One, aged 34</dd>
+          <dt>NCD</dt><dd>50%, protected</dd>
+          <dt>Workshop</dt><dd>Any workshop</dd>
+          <dt>Claims, 3 years</dt><dd>None</dd>
+          <dt>Received</dt><dd>18 Oct 2026, 2.14pm</dd>
+        </dl>
+      </div>
+
+      <div class="tha-drawer__sec">
+        <h3>Vehicle log card</h3>
+        <div class="tha-ai">
+          <div class="tha-ai__head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            <b>Read from the client's upload</b>
+            <span>logcard-SXX2287K.pdf, 18 Oct</span>
+          </div>
+          <div class="tha-ai__body">
+            <dl class="tha-kv">
+              <dt>Vehicle number</dt><dd>SXX 2287 K</dd>
+              <dt>Make and model</dt><dd>Toyota Corolla Altis 1.6</dd>
+              <dt>Engine capacity</dt><dd>1,598cc &middot; petrol</dd>
+              <dt>Original registration</dt><dd>14 Mar 2019 &middot; 7 years old, no age surcharge</dd>
+              <dt>COE expiry</dt><dd>13 Mar 2029</dd>
+              <dt>Road tax expiry</dt><dd>09 Nov 2026</dd>
+            </dl>
+            <div class="tha-ai__row" style="margin-top:10px;border-top:1px solid var(--th-line-2);padding-top:12px;">
+              <div><b>Road tax S$371 / 6 months &middot; S$742 / 12 months</b><small>LTA formula: [S$250 + S$0.375 &times; (1,598 &minus; 1,000)] &times; 0.782 per 6 months</small></div>
+              <span class="tha-conf">Computed</span>
+            </div>
+            <div class="tha-ai__flag" style="border-left-color:var(--th-navy-2);">
+              <b>Verify at LTA before collecting.</b> Covers special schemes, rebates and rate changes the formula cannot see. Copy plate: <b>SXX 2287 K</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tha-drawer__sec">
+        <h3>Quote reader</h3>
+        <div class="tha-ai">
+          <div class="tha-ai__head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            <b>Read from insurer email</b>
+            <span>MSIG, 20 Oct</span>
+          </div>
+          <div class="tha-ai__body">
+            <div class="tha-ai__row"><div><b>Premium S$1,096.00</b><small>"Total payable including GST: S$1,096.00"</small></div><span class="tha-conf">High</span></div>
+            <div class="tha-ai__row"><div><b>Excess S$500</b><small>"Standard excess of S$500 applies"</small></div><span class="tha-conf">High</span></div>
+            <div class="tha-ai__row"><div><b>Any workshop</b><small>"Repairs at any workshop of your choice"</small></div><span class="tha-conf">High</span></div>
+            <div class="tha-ai__row"><div><b>NCD 50%</b><small>"No claim discount: 50%"</small></div><span class="tha-conf">High</span></div>
+            <div class="tha-ai__row"><div><b>Valid until 18 Nov 2026</b><small>"Quotation valid for 30 days"</small></div><span class="tha-conf tha-conf--low">Check</span></div>
+
+            <div class="tha-ai__flag">
+              <b>Two excess amounts found.</b> The email also mentions S$1,500 for drivers under 27. Confirm which applies before sending.
+            </div>
+
+            <div style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap;">
+              <button class="th-btn th-btn--primary" style="font-size:14px;padding:9px 16px;">Accept into the quote table</button>
+              <button class="th-btn th-btn--ghost" style="font-size:14px;padding:9px 16px;">Discard</button>
+            </div>
+            <p style="font-size:12px;color:var(--th-mute);margin-top:11px;">Nothing is saved or sent to the client until you accept it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tha-drawer__sec">
+        <h3>Quotes to send</h3>
+        <div class="tha-qrow">
+          <input class="tha-input" value="MSIG" aria-label="Insurer">
+          <input class="tha-input" value="1096.00" aria-label="Premium">
+          <input class="tha-input" value="500" aria-label="Excess">
+        </div>
+        <div class="tha-qrow">
+          <input class="tha-input" value="Income" aria-label="Insurer">
+          <input class="tha-input" value="1142.00" aria-label="Premium">
+          <input class="tha-input" value="600" aria-label="Excess">
+        </div>
+        <div class="tha-qrow">
+          <input class="tha-input" placeholder="Insurer" aria-label="Insurer">
+          <input class="tha-input" placeholder="Premium" aria-label="Premium">
+          <input class="tha-input" placeholder="Excess" aria-label="Excess">
+        </div>
+        <button class="th-btn th-btn--primary th-btn--block" style="margin-top:6px;">Send 2 quotes on WhatsApp</button>
+        <p style="font-size:12px;color:var(--th-mute);margin-top:9px;">Sends from the Motor insurance number using template MTR_QUOTES.</p>
+      </div>
+
+      <div class="tha-drawer__sec">
+        <h3>Payment and policy</h3>
+        <div class="tha-rule">
+          <div class="tha-rule__main"><b>PayNow S$1,096.00</b><span>Received 21 Oct, reference RCP-2026-0780</span></div>
+          <span class="th-chip th-chip--ok"><span class="th-chip__dot"></span>Received</span>
+        </div>
+        <div style="margin-top:14px;">
+          <button class="th-btn th-btn--primary th-btn--block">Confirm payment and send policy</button>
+          <p style="font-size:12px;color:var(--th-mute);margin-top:9px;">Sends to the client's portal, WhatsApp and email in one step, then schedules next year's reminder.</p>
+        </div>
+      </div>
+
+      <div class="tha-drawer__sec">
+        <h3>Activity</h3>
+        <div class="tha-log">
+          <div class="tha-log__item"><div class="tha-log__dot is-done"></div><div><b>Payment received</b><span>21 Oct 2026, 10.42am &middot; PayNow</span></div></div>
+          <div class="tha-log__item"><div class="tha-log__dot is-done"></div><div><b>Quotes sent to client</b><span>20 Oct 2026, 4.05pm &middot; Mei Ling</span></div></div>
+          <div class="tha-log__item"><div class="tha-log__dot is-done"></div><div><b>Quote read from MSIG email</b><span>20 Oct 2026, 3.58pm &middot; accepted by Mei Ling</span></div></div>
+          <div class="tha-log__item"><div class="tha-log__dot is-done"></div><div><b>Details received</b><span>18 Oct 2026, 2.14pm &middot; client</span></div></div>
+          <div class="tha-log__item"><div class="tha-log__dot is-done"></div><div><b>Reminder delivered</b><span>29 Aug 2026, 9.00am &middot; WhatsApp, Motor insurance</span></div></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

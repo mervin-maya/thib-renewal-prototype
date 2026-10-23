@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>THIB Renewal Platform — prototype</title>
+<link rel="icon" href="site/assets/img/thib-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site/assets/css/thib.css">
+<style>
+  .hub { max-width: 1040px; margin: 0 auto; padding: 56px 24px 96px; }
+  .hub__top { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 64px; }
+  .hub__top img { height: 36px; width: auto; }
+  .hub__tag { font-size: 12.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--th-mute); }
+  .hub h1 { font-size: clamp(38px, 5.5vw, 64px); letter-spacing: -0.034em; line-height: 1; max-width: 16ch; }
+  .hub h1 .th-serif { font-size: 1.04em; }
+  .hub__lead { margin-top: 22px; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--th-mute); max-width: 60ch; }
+  .hub__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .hub__card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--th-line); border-radius: 22px; padding: 28px; transition: border-color .15s ease, transform .15s var(--th-ease); color: var(--th-ink); }
+  .hub__card:hover { border-color: var(--th-navy); transform: translateY(-2px); }
+  .hub__card--dark { background: var(--th-navy); border-color: var(--th-navy); color: #fff; }
+  .hub__n { font-family: var(--th-serif); font-style: italic; font-size: 19px; color: var(--th-red); margin-bottom: 18px; }
+  .hub__card--dark .hub__n { color: #FF8A8F; }
+  .hub__card h2 { font-size: 24px; letter-spacing: -0.024em; margin-bottom: 4px; }
+  .hub__card--dark h2 { color: #fff; }
+  .hub__card small { display: block; font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--th-mute); margin-bottom: 14px; }
+  .hub__card--dark small { color: rgba(255,255,255,.6); }
+  .hub__card p { font-size: 14.5px; line-height: 1.58; color: var(--th-mute); flex: 1; }
+  .hub__card--dark p { color: rgba(255,255,255,.74); }
+  .hub__card .th-btn { margin-top: 22px; align-self: flex-start; }
+  .hub__card .hub__alt { margin-top: 10px; font-size: 13px; color: var(--th-mute); }
+  .hub__card .hub__alt a { color: var(--th-navy-2); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .hub__card--dark .hub__alt, .hub__card--dark .hub__alt a { color: rgba(255,255,255,.72); }
+  .hub__how { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--th-line); display: grid; grid-template-columns: 5fr 7fr; gap: 48px; }
+  .hub__how h3 { font-size: 22px; letter-spacing: -0.022em; }
+  .hub__how ol { margin: 0; padding-left: 0; list-style: none; counter-reset: s; }
+  .hub__how li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--th-line-2); font-size: 15px; line-height: 1.55; }
+  .hub__how li::before { content: counter(s, lower-roman) "."; font-family: var(--th-serif); font-style: italic; color: var(--th-red); font-size: 18px; }
+  .hub__how b { font-weight: 600; }
+  .hub__note { margin-top: 48px; padding: 18px 20px; border: 1px dashed var(--th-line); border-radius: 14px; font-size: 13.5px; color: var(--th-mute); line-height: 1.6; }
+  .hub__note b { color: var(--th-ink); font-weight: 600; }
+  .hub__foot { margin-top: 40px; font-size: 13px; color: var(--th-mute-2); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  @media (max-width: 900px) { .hub__grid { grid-template-columns: 1fr; } .hub__how { grid-template-columns: 1fr; gap: 24px; } }
+  @media (max-width: 600px) { .hub { padding: 36px 18px 72px; } .hub__top { margin-bottom: 40px; } }
+</style>
+</head>
+<body style="background:var(--th-bg-warm);">
+<main class="hub">
+  <div class="hub__top">
+    <img src="site/assets/img/thib-logo.png" alt="TH Insurance Brokers Pte Ltd">
+    <span class="hub__tag">Renewal platform &middot; prototype &middot; October 2026</span>
+  </div>
+
+  <h1>The renewal platform, <span class="th-serif">ready to click through.</span></h1>
+  <p class="hub__lead">A working prototype of the renewal and retention platform for TH Insurance Brokers. Clients get reminded before a policy lapses, renew in a couple of minutes with their details already filled in, compare quotes, pay, and have the policy delivered. Staff get one desk for all of it. Three parts, below. Everything is clickable; the names, policies and amounts are invented.</p>
+
+  <div class="hub__grid">
+    <a class="hub__card" href="site/index.html">
+      <div class="hub__n">i.</div>
+      <h2>User landing page</h2>
+      <small>The new thib.com.sg</small>
+      <p>Home, all fifteen lines of cover, the About page, the fourteen insurers, Google reviews and the office map. Every "Get a quote" leads into the client sign-up.</p>
+      <span class="th-btn th-btn--primary">Open the website</span>
+    </a>
+    <a class="hub__card" href="site/portal.html">
+      <div class="hub__n">ii.</div>
+      <h2>User dashboard</h2>
+      <small>Client portal</small>
+      <p>Sign in with a mobile number and a code, or create an account as a new client, by mobile, Singpass or Corppass. See the renewal, compare quotes, work out road tax from the log card, find policies and receipts.</p>
+      <span class="th-btn th-btn--primary">Open the client portal</span>
+      <span class="hub__alt">Existing client: mobile <b>9123 4567</b>, any 6-digit code. Or <a href="site/portal.html#new">sign up as a new client</a>.</span>
+    </a>
+    <a class="hub__card hub__card--dark" href="site/admin.html">
+      <div class="hub__n">iii.</div>
+      <h2>Admin dashboard</h2>
+      <small>Staff desk</small>
+      <p>The renewals desk, road tax queues, payments ledger, automation rules, the client directory, email and inbox, and users and access. Signed in as the CEO.</p>
+      <span class="th-btn th-btn--on-dark">Open the staff admin</span>
+      <span class="hub__alt">Credentials are pre-filled; any 6-digit code signs in.</span>
+    </a>
+  </div>
+
+  <div class="hub__how">
+    <div>
+      <h3>Try the whole journey in five minutes</h3>
+      <p style="margin-top:10px;font-size:14.5px;color:var(--th-mute);line-height:1.6;">Open the client portal and the staff admin in two tabs of the same browser. What a client does in one appears in the other.</p>
+    </div>
+    <ol>
+      <li><span>In the portal, choose <b>Create your account</b>. Try <b>Continue with Singpass</b>: your details and vehicle arrive from Myinfo, so there is nothing to type.</span></li>
+      <li><span>On the road tax step, see the amount worked out from the log card, with the basis shown, and choose who renews it.</span></li>
+      <li><span>Finish. In the admin, the new client appears under <b>New sign-ups</b> with the reminder date already scheduled.</span></li>
+      <li><span>Open <b>Verify log card</b>, then try <b>Email the contact</b> on a business sign-up: pick a template and send, and watch it land in the <b>Inbox</b>.</span></li>
+      <li><span>Browse <b>Clients</b> for the full book, personal and business, fifty a page, and <b>Users &amp; access</b> to invite a colleague.</span></li>
+    </ol>
+  </div>
+
+  <div class="hub__note"><b>About this prototype.</b> Nothing is sent, stored on a server, or charged: messages, payments, Singpass and email are simulated in the browser. Quotes attach illustrative premiums to real insurer names. Reviews are THIB's own Google reviews, shown as written. The specification this prototype follows is held separately.</div>
+
+  <div class="hub__foot"><span>Prepared for TH Insurance Brokers Pte Ltd</span><span>Private preview &middot; not for public listing</span></div>
+</main>
+</body>
+</html>
