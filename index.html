@@ -20,7 +20,7 @@
   .hub__lead { margin-top: 22px; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6; color: var(--th-mute); max-width: 60ch; }
   .hub__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
   .hub__card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--th-line); border-radius: 22px; padding: 28px; transition: border-color .15s ease, transform .15s var(--th-ease); color: var(--th-ink); }
-  .hub__card:hover { border-color: var(--th-navy); transform: translateY(-2px); }
+  .hub__card:hover { border-color: var(--th-navy); }
   .hub__card--dark { background: var(--th-navy); border-color: var(--th-navy); color: #fff; }
   .hub__n { font-family: var(--th-serif); font-style: italic; font-size: 19px; color: var(--th-red); margin-bottom: 18px; }
   .hub__card--dark .hub__n { color: #FF8A8F; }
@@ -58,29 +58,29 @@
   <p class="hub__lead">A working prototype of the renewal and retention platform for TH Insurance Brokers. Clients get reminded before a policy lapses, renew in a couple of minutes with their details already filled in, compare quotes, pay, and have the policy delivered. Staff get one desk for all of it. Three parts, below. Everything is clickable; the names, policies and amounts are invented.</p>
 
   <div class="hub__grid">
-    <a class="hub__card" href="site/index.html">
+    <div class="hub__card">
       <div class="hub__n">i.</div>
       <h2>User landing page</h2>
       <small>The new thib.com.sg</small>
       <p>Home, all fifteen lines of cover, the About page, the fourteen insurers, Google reviews and the office map. Every "Get a quote" leads into the client sign-up.</p>
-      <span class="th-btn th-btn--primary">Open the website</span>
-    </a>
-    <a class="hub__card" href="site/portal.html">
+      <a class="th-btn th-btn--primary" href="site/index.html">Open the website</a>
+    </div>
+    <div class="hub__card">
       <div class="hub__n">ii.</div>
       <h2>User dashboard</h2>
       <small>Client portal</small>
       <p>Sign in with a mobile number and a code, or create an account as a new client, by mobile, Singpass or Corppass. See the renewal, compare quotes, work out road tax from the log card, find policies and receipts.</p>
-      <span class="th-btn th-btn--primary">Open the client portal</span>
+      <a class="th-btn th-btn--primary" href="site/portal.html">Open the client portal</a>
       <span class="hub__alt">Existing client: mobile <b>9123 4567</b>, any 6-digit code. Or <a href="site/portal.html#new">sign up as a new client</a>.</span>
-    </a>
-    <a class="hub__card hub__card--dark" href="site/admin.html">
+    </div>
+    <div class="hub__card hub__card--dark">
       <div class="hub__n">iii.</div>
       <h2>Admin dashboard</h2>
       <small>Staff desk</small>
       <p>The renewals desk, road tax queues, payments ledger, automation rules, the client directory, email and inbox, and users and access. Signed in as the CEO.</p>
-      <span class="th-btn th-btn--on-dark">Open the staff admin</span>
+      <a class="th-btn th-btn--on-dark" href="site/admin.html">Open the staff admin</a>
       <span class="hub__alt">Credentials are pre-filled; any 6-digit code signs in.</span>
-    </a>
+    </div>
   </div>
 
   <div class="hub__how">
